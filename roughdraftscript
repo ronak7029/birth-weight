@@ -14,7 +14,7 @@ import statsmodels.formula.api as smf # regression modeling
 
 file= 'bw.xls'
 
-bw = pd.read_excel(file)
+df = pd.read_excel(file)
 
 
 
@@ -25,79 +25,79 @@ bw = pd.read_excel(file)
 ########################
 
 # Column names
-bw.columns
+df.columns
 
 
 # Displaying the first rows of the DataFrame
-print(bw.head())
+print(df.head())
 
 
 # Dimensions of the DataFrame
-bw.shape
+df.shape
 
 
 # Information about each variable
-bw.info()
+df.info()
 
 
 # Descriptive statistics
-bw.describe().round(2)
+df.describe().round(2)
 
 
-bw.sort_values('bwght', ascending = False)
+df.sort_values('dfght', ascending = False)
 
 
 
 ## Value Counts of each Var
 
 # MOther White (53) 
-bw['mwhte'].value_counts()
+df['mwhte'].value_counts()
 
 # MOther Black (75)
-bw['mblck'].value_counts()
+df['mblck'].value_counts()
 
 ## Mother Other (68)
-bw['moth'].value_counts()
+df['moth'].value_counts()
 
 ## Father White  (68)
-bw['fwhte'].value_counts()
+df['fwhte'].value_counts()
 
 ## Father BLack (67)
-bw['fblck'].value_counts()
+df['fblck'].value_counts()
 
 
 ##### Father Other (61)
-bw['foth'].value_counts()
+df['foth'].value_counts()
 
 #####
-#bw.corr()
-#bw.corr.loc[: , 'bwght'].sor_values(ascending = False)
+#df.corr()
+#df.corr.loc[: , 'bwght'].sor_values(ascending = False)
 
 ###############################################################################
 # Imputing Missing Values
 ###############################################################################
 
 print(
-      bw
+      df
       .isnull()
       .sum()
       )
 
 print(
-      bw
+      df
       .isnull()
       .any()
       .any()
       )
 
 
-for col in bw:
+for col in df:
 
     """ Create columns that are 0s if a value was not missing and 1 if
     a value is missing. """
     
-    if bw[col].isnull().any():
-        bw['m_'+col] = bw[col].isnull().astype(int)
+    if df[col].isnull().any():
+        df['m_'+col] = df[col].isnull().astype(int)
         
         
         
@@ -105,25 +105,25 @@ for col in bw:
 #############
 # Replacing Missing Vals
 #Mother Education
-fill = bw['meduc'].median()
+fill = df['meduc'].median()
 
-bw['meduc'] = bw['meduc'].fillna(fill)      
+df['meduc'] = df['meduc'].fillna(fill)      
 
 ##########
 # Number prenatal visits
 
-fill = bw['npvis'].mean()
-bw['npvis'] = bw['npvis'].fillna(fill)    
+fill = df['npvis'].mean()
+df['npvis'] = df['npvis'].fillna(fill)    
 
 ####################
 # Father Education
-fill = bw['feduc'].median()
+fill = df['feduc'].median()
 
-bw['feduc'] = bw['feduc'].fillna(fill)      
+df['feduc'] = df['feduc'].fillna(fill)      
         
 
 print(
-      bw
+      df
       .isnull()
       .any()
       .any()
@@ -134,14 +134,14 @@ print(
 # Outlier Analysis
 ###############################################################################
 
-bw_quantiles = bw.loc[:, :].quantile([0.20,
+df_quantiles = df.loc[:, :].quantile([0.20,
                                                 0.40,
                                                 0.60,
                                                 0.80,
                                                 1.00])
 
     
-print(bw_quantiles)
+print(df_quantiles)
 
 
 ##############################################################################
@@ -158,7 +158,7 @@ print(bw_quantiles)
 ###############################################################################
 
 plt.subplot(2, 2, 1)
-sns.distplot(bw['meduc'],
+sns.distplot(df['meduc'],
              bins = 16,
              color = 'g')
 
@@ -169,7 +169,7 @@ plt.xlabel('Mother Edu')
 
 
 plt.subplot(2, 2, 2)
-sns.distplot(bw['npvis'],
+sns.distplot(df['npvis'],
              bins = 20,
              color = 'y',
              )
@@ -182,7 +182,7 @@ plt.xlabel('Num Prenatal Visit')
 
 
 plt.subplot(2, 2, 3)
-sns.distplot(bw['feduc'],
+sns.distplot(df['feduc'],
              bins = 16,
              color = 'orange')
 
@@ -195,7 +195,7 @@ plt.xlabel('Father Edu')
 
 plt.subplot(2, 2, 4)
 
-sns.distplot(bw['bwght'],
+sns.distplot(df['bwght'],
              bins = 50,
              color = 'r')
 
@@ -209,14 +209,14 @@ plt.tight_layout()
 plt.show()
 
 
-sns.distplot(bw['monpre'],
+sns.distplot(df['monpre'],
              bins = 50,
              color = 'r')
 
 plt.xlabel('prenatal care')
 
 
-bw.corr()
+df.corr()
 
 
 ###############################################################
@@ -224,7 +224,7 @@ bw.corr()
 #Saving Scatterplots that we want to analyze and use 
 sns.lmplot(x = 'moth',
            y = 'bwght',
-           data = bw,
+           data = df,
            fit_reg = False,
            hue= 'cigs',
    
@@ -234,7 +234,7 @@ plt.show()
 
 sns.lmplot(x = 'mwhte',
            y = 'bwght',
-           data = bw,
+           data = df,
            fit_reg = False,
            hue= 'cigs',
    
@@ -244,7 +244,7 @@ plt.show()
 
 sns.lmplot(x = 'mblck',
            y = 'bwght',
-           data = bw,
+           data = df,
            fit_reg = False,
            hue= 'cigs',
    
@@ -255,7 +255,7 @@ plt.show()
 
 sns.lmplot(x = 'moth',
            y = 'bwght',
-           data = bw,
+           data = df,
            fit_reg = False,
            hue= 'drink',
    
@@ -266,7 +266,7 @@ plt.show()
 
 sns.lmplot(x = 'mwhte',
            y = 'bwght',
-           data = bw,
+           data = df,
            fit_reg = False,
            hue= 'drink',
    
@@ -276,7 +276,7 @@ plt.show()
 
 sns.lmplot(x = 'mblck',
            y = 'bwght',
-           data = bw,
+           data = df,
            fit_reg = False,
            hue= 'drink',
    
@@ -287,7 +287,7 @@ plt.show()
 
 sns.lmplot(x = 'moth',
            y = 'bwght',
-           data = bw,
+           data = df,
            fit_reg = False,
            hue= 'mage',
    
@@ -297,7 +297,7 @@ plt.show()
 
 sns.lmplot(x = 'mwhte',
            y = 'bwght',
-           data = bw,
+           data = df,
            fit_reg = False,
            hue= 'mage',
    
@@ -307,7 +307,7 @@ plt.show()
 
 sns.lmplot(x = 'mblck',
            y = 'bwght',
-           data = bw,
+           data = df,
            fit_reg = False,
            hue= 'mage',
    
@@ -324,7 +324,7 @@ use of alcohol or cigarettes
 """
 sns.lmplot(x = 'drink',
            y = 'bwght',
-           data = bw,
+           data = df,
            fit_reg = False,
            hue= 'cigs',
    
@@ -334,7 +334,7 @@ plt.show()
 
 sns.lmplot(x = 'cigs',
            y = 'bwght',
-           data = bw,
+           data = df,
            fit_reg = False,
            hue= 'drink',
    
@@ -351,26 +351,26 @@ plt.show()
 ###########################################################################
 
 
-lm_full = smf.ols(formula = """bwght ~ bw['mage']+
-                                      bw['meduc']+ 
-                                       bw['monpre']+ 
-                                        bw['npvis']+ 
-                                         bw['fage']+ 
-                                         bw['feduc']+
-                                          bw['omaps']+
-                                           bw['fmaps']+
-                                          bw['cigs']+ 
-                                           bw['drink']+ 
-                                            bw['male']+ 
-                                             bw['mwhte']+ 
-                                              bw['mblck']+ 
-                                               bw['moth']+ 
-                                                bw['fwhte']+ 
-                                                 bw['fblck']+ 
-                                                  bw['foth'] 
+lm_full = smf.ols(formula = """bwght ~ df['mage']+
+                                      df['meduc']+ 
+                                       df['monpre']+ 
+                                        df['npvis']+ 
+                                         df['fage']+ 
+                                         df['feduc']+
+                                          df['omaps']+
+                                           df['fmaps']+
+                                          df['cigs']+ 
+                                           df['drink']+ 
+                                            df['male']+ 
+                                             df['mwhte']+ 
+                                              df['mblck']+ 
+                                               df['moth']+ 
+                                                df['fwhte']+ 
+                                                 df['fblck']+ 
+                                                  df['foth'] 
                                                                                                     
                                            """,
-                         data = bw)
+                         data = df)
 
 
 # Fitting Results
@@ -387,18 +387,18 @@ print(results.summary())
 ###########################################################################
 
 
-lm_full = smf.ols(formula = """bwght ~ bw['mage']+
-                                       bw['cigs']+ 
-                                       bw['drink']+                                             
-                                       bw['mwhte']+ 
-                                       bw['mblck']+ 
-                                       bw['moth']+ 
-                                       bw['fwhte']+ 
-                                       bw['fblck']+ 
-                                       bw['foth'] 
+lm_full = smf.ols(formula = """bwght ~ df['mage']+
+                                       df['cigs']+ 
+                                       df['drink']+                                             
+                                       df['mwhte']+ 
+                                       df['mblck']+ 
+                                       df['moth']+ 
+                                       df['fwhte']+ 
+                                       df['fblck']+ 
+                                       df['foth'] 
                                                                                                     
                                            """,
-                         data = bw)
+                         data = df)
 
 
 # Fitting Results
@@ -416,21 +416,21 @@ print(results.summary())
 
 
 
-lm_full = smf.ols(formula = """bwght ~ bw['mage']+
+lm_full = smf.ols(formula = """bwght ~ df['mage']+
                                     
                                          
                                           
-                                          bw['cigs']+ 
-                                           bw['drink']+ 
+                                          df['cigs']+ 
+                                           df['drink']+ 
                                             
-                                             bw['mwhte']+ 
-                                              bw['mblck']+ 
-                                               bw['moth'] 
+                                             df['mwhte']+ 
+                                              df['mblck']+ 
+                                               df['moth'] 
                                                 
                                                
                                                                                                     
                                            """,
-                         data = bw)
+                         data = df)
 
 
 # Fitting Results
@@ -443,17 +443,17 @@ print(results.summary())
 
 
 #######################################################################
-### SIMPLEST REGRESSION MODEL USING BWGHT AS A CONTINUOUS VAR
-lm_full = smf.ols(formula = """bwght ~    bw['mage']+
-                                          bw['cigs']+ 
-                                          bw['drink']
+### SIMPLEST REGRESSION MODEL USING dfGHT AS A CONTINUOUS VAR
+lm_full = smf.ols(formula = """bwght ~    df['mage']+
+                                          df['cigs']+ 
+                                          df['drink']
                                           
                                        
                                         
                                           
                                                   """,
                                       
-                         data = bw)
+                         data = df)
 
 
 # Fitting Results
@@ -473,7 +473,7 @@ the use of medical care whilest pregnant.
 """
 
 #######################################################################
-#RECODING BWGHT INTO A BINARY FOR LOGISTIC REGRESSION
+#RECODING dfGHT INTO A BINARY FOR LOGISTIC REGRESSION
 #######################################################################
 
 
