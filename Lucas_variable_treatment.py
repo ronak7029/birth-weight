@@ -261,7 +261,14 @@ for val in enumerate(df.loc[ : , 'fage']):
     
     if val[1] >= fage_hi:
         df.loc[val[0], 'out_fage'] = 1
-            
+    
+    
+    
+    
+########################################################
+#Dataset still needs the treatment of the other missing values to begin modeling.
+########################################################
+       
 
     
 
